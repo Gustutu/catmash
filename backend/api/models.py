@@ -1,13 +1,18 @@
-from django.db import models
 from rest_framework import serializers
+from django.db import models
 
 
-class Message(models.Model):
-    subject = models.CharField(max_length=200)
-    body = models.TextField()
+class Cat(models.Model):
+    id = models.CharField(primary_key=True, max_length=20)
+    image = models.BinaryField()
+    score = models.IntegerField()
 
-
-class MessageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Message
-        fields = ('url', 'subject', 'body', 'pk')
+        managed = False
+        db_table = 'cats'
+
+
+class CatSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Cat
+        fields = ('id', 'image', 'score')
