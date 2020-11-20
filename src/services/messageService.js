@@ -1,8 +1,8 @@
 import api from '@/services/api'
 
 export default {
-  fetchMessages() {
-    return api.get(`messages/`)
+  getCats() {
+    return api.get(`cat/`)
               .then(response => response.data)
   },
   postMessage(payload) {

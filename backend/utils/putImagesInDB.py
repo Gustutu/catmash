@@ -34,15 +34,21 @@ with open('cats.json') as json_file:
 
 
 # Download and add first cat in DB
-# cat = data["images"][1]
-# data = requests.get(cat["url"]).content
+cat = data["images"][1]
+for cat in data["images"]:
+    data = requests.get(cat["url"]).content
+    file_name = cat["id"]
+    f = open("/home/gustutu/catmash/django-vue-template/public/static/"+file_name, "wb")
+    f.write(data)
+    f.close()
+    
 # session.add((Cat(id=cat["id"], image=data)))
 # session.commit()
 
 
-for cat in data["images"]:
-    print("downloading"+cat["url"])
-    data = requests.get(cat["url"]).content
-    session.add((Cat(id=cat["id"], image=data)))
+# for cat in data["images"]:
+#     print("downloading"+cat["url"])
+#     data = requests.get(cat["url"]).content
+#     session.add((Cat(id=cat["id"], image=data)))
 
-session.commit()
+# session.commit()

@@ -135,6 +135,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'dist', 'static')
 STATICFILES_DIRS = []
 
 
+WHITENOISE_MIMETYPES = {
+    '.jpg': 'image/jpeg',
+    '.png': 'image/png',
+    '.gif': 'image/gif'
+}
+
+
 ##########
 # STATIC #
 ##########

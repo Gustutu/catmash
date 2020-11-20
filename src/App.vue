@@ -1,21 +1,50 @@
 <template>
-  <div id="app">
-    <h1>Django VueJs Template</h1>
-    <div id="nav">
-     <router-link :to="{ name: 'home' }">Vue</router-link> |
-     <router-link :to="{ name: 'messages' }">Django Rest</router-link>
+  <!DOCTYPE html>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Hello World</h1>
+      <p class="subtitle">My first website with <strong>Bulma</strong>!</p>
     </div>
-    <router-view/>
-  </div>
+    <div class="columns">
+      <div class="column">
+        <div class="container">
+          <figure class="image is-128x128">
+            <img
+              class="is-rounded"
+              src="/static/1dp"
+            />
+          </figure>
+        </div>
+      </div>
+      <div class="column"></div>
+      <figure class="image is-128x128">
+        <img
+          class="is-rounded"
+          src="https://bulma.io/images/placeholders/128x128.png"
+        />
+      </figure>
+    </div>
+  </section>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<script>
+import messageService from "./services/messageService";
+export default {
+  data() {
+    return {
+      cats: [],
+    };
+  },
+  name: "App",
+
+  created() {
+    messageService.getCats().then((res) => {
+      console.log(res);
+      console.log("test");
+      console.log(this.cats)
+      this.cats.push(res[0]);
+      this.cats.push(res[1])
+    });
+  },
+};
+</script>
