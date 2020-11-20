@@ -6,7 +6,8 @@ from .models import Cat, CatSerializer
 from django.shortcuts import get_object_or_404
 import random
 from rest_framework.response import Response
-
+import json
+from . import computeElo
 # Serve Vue Application
 index_view = never_cache(TemplateView.as_view(template_name='index.html'))
 
@@ -15,7 +16,7 @@ class CatView(viewsets.ViewSet):
     """
     API endpoint to get two different  random cats
     """
-        
+
     def list(self, request):
         queryset = Cat.objects.all()
         # cats = []
@@ -27,13 +28,37 @@ class CatView(viewsets.ViewSet):
         two_random_cat = Cat.objects.filter(id__in=rand_ids)
 
         serializer = CatSerializer(two_random_cat, many=True)
-    
+
         return Response(serializer.data)
-    
 
-# TODO: move to django initialisation
+    def create(self, request):
+        # TODO: check image not download (performance)
+        parsed_body = json.loads(request.body)
 
-        my_ids = Cat.objects.values_list('id', flat=True)
-        my_ids = list(my_ids)
-        n = 2
-        rand_ids = random.sample(my_ids, n)
+        cat1_id = parsed_body["catsIds"][0]
+        cat2_id = parsed_body["catsIds"][1]
+        winner_id = parsed_body["winnerId"]
+
+        cat1 = Cat.objects.get(id=cat1_id)
+        cat2 = Cat.objects.get(id=cat2_id)
+
+        if cat1.id == winner_id:
+            winner_cat = cat1
+            looser_cat = cat2
+        elif cat2.id == winner_id:
+            winner_cat = cat2
+            looser_cat = cat1
+        else:
+            # TODO: error response code
+            print("winner not in cat Ids")
+
+        winner_score, looser_score = computeElo.compute_new_scores(
+            winner_cat.score, looser_cat.score)
+
+        winner_cat.score = winner_score
+        looser_cat.score = looser_score
+
+        winner_cat.save()
+        looser_cat.save()
+
+        return Response()
