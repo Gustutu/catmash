@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+// import { mapState, mapActions } from "vuex";
+import messageService from "../services/messageService";
 
 export default {
   name: "Messages",
@@ -22,12 +23,17 @@ export default {
       cats: [],
     };
   },
-  
- 
   methods: {
-    
+    getAllCats:function(){
+        messageService.getCats().then((res) => {
+        this.cats=res
+        console.log(this.cats)
+      });
+    }
   },
-  created() {},
+  created() {
+    this.getAllCats()
+  },
 };
 </script>
 

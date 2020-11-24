@@ -2,7 +2,7 @@ from django.views.generic import TemplateView
 from django.views.decorators.cache import never_cache
 from rest_framework import viewsets
 from rest_framework.views import APIView
-from .models import Cat, CatSerializer
+from .models import Cat, CatNoImage, CatNoImageSerializer, CatSerializer
 from django.shortcuts import get_object_or_404
 import random
 from rest_framework.response import Response
@@ -18,6 +18,13 @@ class CatView(viewsets.ViewSet):
     """
 
     def list(self, request):
+        queryset = CatNoImage.objects.all()
+        all_cats = CatNoImage.objects.all()
+        serializer = CatNoImageSerializer(all_cats, many=True)
+
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
         queryset = Cat.objects.all()
         # cats = []
         # TODO: move to dja,go init
