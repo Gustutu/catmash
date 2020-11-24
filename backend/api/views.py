@@ -25,16 +25,16 @@ class CatView(viewsets.ViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        queryset = Cat.objects.all()
+        queryset = CatNoImage.objects.all()
         # cats = []
         # TODO: move to dja,go init
-        my_ids = Cat.objects.values_list('id', flat=True)
+        my_ids = CatNoImage.objects.values_list('id', flat=True)
         my_ids = list(my_ids)
         rand_ids = random.sample(my_ids, 2)
         # cats.append(get_object_or_404(queryset, pk=pk))
-        two_random_cat = Cat.objects.filter(id__in=rand_ids)
+        two_random_cat = CatNoImage.objects.filter(id__in=rand_ids)
 
-        serializer = CatSerializer(two_random_cat, many=True)
+        serializer = CatNoImageSerializer(two_random_cat, many=True)
 
         return Response(serializer.data)
 
@@ -46,8 +46,8 @@ class CatView(viewsets.ViewSet):
         cat2_id = parsed_body["catsIds"][1]
         winner_id = parsed_body["winnerId"]
 
-        cat1 = Cat.objects.get(id=cat1_id)
-        cat2 = Cat.objects.get(id=cat2_id)
+        cat1 = CatNoImage.objects.get(id=cat1_id)
+        cat2 = CatNoImage.objects.get(id=cat2_id)
 
         if cat1.id == winner_id:
             winner_cat = cat1
