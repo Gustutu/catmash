@@ -5,8 +5,8 @@ export default {
     return api.get(`cat/`)
               .then(response => response.data)
   },
-  postMessage(payload) {
-    return api.post(`messages/`, payload)
+  postCutest(payload) {
+    return api.post(`cat/`, payload)
               .then(response => response.data)
   },
   deleteMessage(msgId) {

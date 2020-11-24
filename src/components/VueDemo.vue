@@ -1,63 +1,105 @@
 <template>
-  <div class="hello">
-    <img src='@/assets/logo-vue.png'>
-    <p>
-      For guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div
+    id="app"
+    class="container centerall is-flex"
+    style="
+      display: flex;
+      min-width: 100vw;
+      min-height: 100vh;
+      flex-wrap: nowrap;
+    "
+  >
+    <h1
+      class="title is-flex m-5"
+      style="
+        font-family: Comic Sans MS, cursive, sans-serif;
+        text-align: center;
+        position: absolute;
+        display: block;
+      "
+    >
+      CAT MASH
+    </h1>
+    
+    <router-link
+      :to="{ name: 'messages' }"
+      class="title bm-6"
+      style="
+        bottom: 10px;
+        top-margin: auto;
+        font-family: Comic Sans MS, cursive, sans-serif;
+        text-align: center;
+        position: absolute;
+        display: block;
+      "
+    >
+      Classement
+    </router-link>
+    <router-view/>
+    <div class="columns m-0 is-flex columns center" style="min-width: 100%">
+      <div class="column center is-flex" style="background-color: #ecb8a5">
+        <figure class="is-flex image center">
+          <img
+            v-on:click="selected(0)"
+            class="image is-rounded"
+            style="width: auto"
+            v-bind:src="'/static/' + cats[0].id"
+          />
+        </figure>
+      </div>
+
+      <div class="column center is-flex" style="background-color: #e49ab0">
+        <figure class="is-flex image center">
+          <img
+            v-on:click="selected(1)"
+            class="image is-rounded"
+            style="width: auto"
+            v-bind:src="'/static/' + cats[1].id"
+          />
+        </figure>
+      </div>
+    </div>
   </div>
 </template>
 
+
+
+
 <script>
+import messageService from "../services/messageService";
 export default {
-  name: 'VueDemo',
-  props: {
+  data() {
+    return {
+      cats: [],
+    };
+  },
+  name: "App",
+  methods: {
+    selected: function (winner) {
+      console.log(winner);
+      var msg = new Object();
+      (msg.catsIds = [this.cats[0].id, this.cats[1].id]),
+        (msg.winnerId = this.cats[winner].id);
+      console.log(msg);
+      messageService.postCutest(msg);
+      this.cats = [];
+      messageService.getCats().then((res) => {
+        this.cats.push(res[0]);
+        this.cats.push(res[1]);
+      });
+    },
+  },
 
-  }
-}
+  created() {
+    messageService.getCats().then((res) => {
+      console.log(res);
+      console.log("test");
+      console.log(this.cats);
+
+      this.cats.push(res[0]);
+      this.cats.push(res[1]);
+      console.log(this.cats[0].id);
+    });
+  },
+};
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-
-img {
-  width: 250px;
-}
-
-</style>

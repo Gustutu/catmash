@@ -34,7 +34,7 @@ class CatView(viewsets.ViewSet):
     def create(self, request):
         # TODO: check image not download (performance)
         parsed_body = json.loads(request.body)
-
+        print(request.body)
         cat1_id = parsed_body["catsIds"][0]
         cat2_id = parsed_body["catsIds"][1]
         winner_id = parsed_body["winnerId"]
