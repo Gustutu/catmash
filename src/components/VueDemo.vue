@@ -50,12 +50,12 @@
 
       <div class="column center is-flex" style="background-color: #e49ab0">
         <figure class="is-flex image center">
-          <img
-            v-on:click="selected(1)"
-            class="image is-rounded"
-            style="width: auto"
-            v-bind:src="'/static/' + cats[1].id"
-          />
+            <img
+              v-on:click="selected(1)"
+              class="image is-rounded"
+              style="width: auto"
+              v-bind:src="'/static/' + cats[1].id"
+            />
         </figure>
       </div>
     </div>
@@ -66,7 +66,9 @@
 
 
 <script>
+// TODO: use cat model
 import messageService from "../services/messageService";
+import Cat from "../models/cat";
 export default {
   data() {
     return {
@@ -78,8 +80,8 @@ export default {
     selected: function (winner) {
       console.log(winner);
       var msg = new Object();
-      (msg.catsIds = [this.cats[0].id, this.cats[1].id]),
-        (msg.winnerId = this.cats[winner].id);
+      msg.catsIds = [this.cats[0].id, this.cats[1].id];
+      msg.winnerId = this.cats[winner].id;
       console.log(msg);
       messageService.postCutest(msg);
       this.cats = [];
@@ -92,12 +94,12 @@ export default {
 
   created() {
     messageService.getCats().then((res) => {
-      console.log(res);
+      cats = res.map(cat => Cat.deserialize(cat));
       console.log("test");
       console.log(this.cats);
 
-      this.cats.push(res[0]);
-      this.cats.push(res[1]);
+      this.cats.push(cats[0]);
+      this.cats.push(cats[1]);
       console.log(this.cats[0].id);
     });
   },

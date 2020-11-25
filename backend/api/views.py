@@ -16,7 +16,7 @@ class CatView(viewsets.ViewSet):
     """
     API endpoint to get two different  random cats
     """
-
+    
     def list(self, request):
         queryset = CatNoImage.objects.all()
         all_cats = CatNoImage.objects.all()
@@ -39,7 +39,7 @@ class CatView(viewsets.ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        # TODO: check image not download (performance)
+        
         parsed_body = json.loads(request.body)
         print(request.body)
         cat1_id = parsed_body["catsIds"][0]

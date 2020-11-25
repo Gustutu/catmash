@@ -1,14 +1,60 @@
 <template>
-  <div>
-    <table class="table is-fullwidth">
-      <thead>
-        <tr>
-          <th>Rang</th>
-          <th>Image</th>
-          <th>Score</th>
-        </tr>
-      </thead>
-    </table>
+  <div style="max-height:100vh">
+    <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: #ecb8a5">
+      <div class="navbar-brand">
+         
+    <a class="navbar-item">
+        <router-link
+      :to="{ name: 'home' }"
+      class="title bm-6"
+    >
+    Cat Mash
+        </router-link>
+    </a>
+
+   
+  
+      </div>
+
+      <div id="navbarBasicExample" class="navbar-menu"></div>
+    </nav>
+   <div class="table-container "  >
+      <table class="table is-scrollable  center-table is-striped is-fullwidth ">
+        <thead>
+          <tr>
+            <th>Rang</th>
+            <th>Image</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>Rang</th>
+            <th>Image</th>
+            <th>Score</th>
+          </tr>
+        </tfoot>
+        <tbody>
+          <tr v-for="(cat, index) in cats" :key="index">
+            <td>
+              {{ index + 1 }}
+            </td>
+            <td>
+              <figure class="is-flex image center">
+                <img
+                  class="image is-rounded"
+                  style="width: auto"
+                  :src="'/static/' + cat.id"
+                />
+              </figure>
+            </td>
+            <td>
+              {{ cat.score }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
   </div>
 </template>
 
@@ -24,15 +70,16 @@ export default {
     };
   },
   methods: {
-    getAllCats:function(){
-        messageService.getCats().then((res) => {
-        this.cats=res
-        console.log(this.cats)
+    getAllCats: function () {
+      messageService.getAllCats().then((res) => {
+        this.cats = res;
+        this.cats.sort((a, b) => b.score - a.score);
+        console.log(this.cats);
       });
-    }
+    },
   },
   created() {
-    this.getAllCats()
+    this.getAllCats();
   },
 };
 </script>
@@ -41,6 +88,11 @@ export default {
 <style scoped>
 hr {
   max-width: 65%;
+}
+
+.table {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .msg {
@@ -57,9 +109,17 @@ hr {
   /* margin-bottom: 0; */
 }
 
+.center-table th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.center-table td {
+  text-align: center;
+  vertical-align: middle;
+}
 img {
   width: 250px;
-  padding-top: 50px;
-  padding-bottom: 50px;
 }
+
 </style>
