@@ -68,7 +68,7 @@
 <script>
 // TODO: use cat model
 import messageService from "../services/messageService";
-import Cat from "../models/cat";
+// import Cat from "../models/cat";
 export default {
   data() {
     return {
@@ -94,12 +94,12 @@ export default {
 
   created() {
     messageService.getCats().then((res) => {
-      cats = res.map(cat => Cat.deserialize(cat));
+      // cats = res.map(cat => Cat.deserialize(cat));
       console.log("test");
       console.log(this.cats);
 
-      this.cats.push(cats[0]);
-      this.cats.push(cats[1]);
+      this.cats.push(res[0]);
+      this.cats.push(res[1]);
       console.log(this.cats[0].id);
     });
   },

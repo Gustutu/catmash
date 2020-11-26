@@ -4,48 +4,15 @@ import os
 import sys
 from urllib.parse import urlparse
 from .dev import *
+import dj_database_url
+import psycopg2
 # urlparse.uses_netloc.append('mysql')
 
-try:
+DATABASE_URL = os.environ['DATABASE_URL']
 
-    # Check to make sure DATABASES is set in settings.py file.
-    # If not default to {}
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
-    if 'DATABASES' not in locals():
-        DATABASES = {}
-
-    if 'DATABASE_URL' in os.environ:
-        url = urlparse(os.environ['DATABASE_URL'])
-
-        # Ensure default database exists.
-        DATABASES['default'] = DATABASES.get('default', {})
-
-        # Update with environment configuration.
-        DATABASES['default'].update({
-            'NAME': url.path[1:],
-            'USER': url.username,
-            'PASSWORD': url.password,
-            'HOST': url.hostname,
-            'PORT': url.port,
-        })
-
-        if url.scheme == 'mysql':
-            DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
-except Exception:
-    print('Unexpected error:', sys.exc_info())
-############
-# DATABASE #
-############
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=os.getenv('DATABASE_URL')
-#     )
-# }
-
-
-############
-# SECURITY #
-############
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 DEBUG = bool(os.getenv('DJANGO_DEBUG', ''))
 
