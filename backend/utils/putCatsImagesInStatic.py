@@ -8,8 +8,8 @@ import requests
 
 
 Base = declarative_base()
-engiene_string = 'mysql+pymysql://catUser:Catmdp1234?@127.0.0.1/cats'
-engine = create_engine(engiene_string, echo=True)
+engine_string = 'mysql+pymysql://catUser:Catmdp1234?@127.0.0.1/cats'
+engine = create_engine(engine_string, echo=True)
 
 
 class Cat(Base):
@@ -42,13 +42,4 @@ for cat in data["images"]:
     f.write(data)
     f.close()
     
-# session.add((Cat(id=cat["id"], image=data)))
-# session.commit()
 
-
-# for cat in data["images"]:
-#     print("downloading"+cat["url"])
-#     data = requests.get(cat["url"]).content
-#     session.add((Cat(id=cat["id"], image=data)))
-
-# session.commit()
