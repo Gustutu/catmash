@@ -22,7 +22,7 @@
     </h1>
     
     <router-link
-      :to="{ name: 'messages' }"
+      :to="{ name: 'ranking' }"
       class="title bm-6"
       style="
         bottom: 10px;

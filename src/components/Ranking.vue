@@ -63,7 +63,7 @@
 import messageService from "../services/messageService";
 
 export default {
-  name: "Messages",
+  name: "Ranking",
   data() {
     return {
       cats: [],

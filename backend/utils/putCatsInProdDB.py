@@ -30,7 +30,6 @@ with open('cats.json') as json_file:
     data = json.load(json_file)
 
 for cat in data["images"]:
-    print("downloading"+cat["url"])
-    session.add((Cat(id=cat["id"], score=100)))
+    session.add((Cat(id=cat["id"], score=1000)))
 
 session.commit()

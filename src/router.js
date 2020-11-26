@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import VueDemo from '@/components/VueDemo'
-import Messages from '@/components/Messages'
+import Vote from '@/components/Vote'
+import Ranking from '@/components/Ranking'
 
 Vue.use(Router)
 
@@ -10,12 +10,12 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: VueDemo
+      component: Vote
     },
     {
-      path: '/messages',
-      name: 'messages',
-      component: Messages
+      path: '/ranking',
+      name: 'ranking',
+      component: Ranking
     }
   ]
 })
