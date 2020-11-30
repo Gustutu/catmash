@@ -2,7 +2,7 @@ from django.views.generic import TemplateView
 from django.views.decorators.cache import never_cache
 from rest_framework import viewsets
 from rest_framework.views import APIView
-from .models import  CatNoImage, CatNoImageSerializer
+from .models import  Cat, CatSerializer
 from django.shortcuts import get_object_or_404
 import random
 from rest_framework.response import Response
@@ -16,8 +16,8 @@ class CatViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A simple ViewSet for viewing accounts.
     """
-    queryset = CatNoImage.objects.all()
-    serializer_class = CatNoImageSerializer
+    queryset = Cat.objects.all()
+    serializer_class = CatSerializer
 
 
 class Cutest(viewsets.ViewSet):
@@ -35,8 +35,8 @@ class Cutest(viewsets.ViewSet):
         cat2_id = parsed_body["catsIds"][1]
         winner_id = parsed_body["winnerId"]
 
-        cat1 = CatNoImage.objects.get(id=cat1_id)
-        cat2 = CatNoImage.objects.get(id=cat2_id)
+        cat1 = Cat.objects.get(id=cat1_id)
+        cat2 = Cat.objects.get(id=cat2_id)
 
         if cat1.id == winner_id:
             winner_cat = cat1
