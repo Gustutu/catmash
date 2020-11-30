@@ -8,10 +8,11 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from .api.views import index_view, CatView
+from .api.views import CatViewSet, Cutest, index_view
 
 router = routers.DefaultRouter()
-router.register(r'cat', CatView, base_name='cat')
+router.register(r'cat', CatViewSet, base_name='cat')
+router.register(r'cutest', Cutest, base_name='cutest')
 
 
 urlpatterns = [

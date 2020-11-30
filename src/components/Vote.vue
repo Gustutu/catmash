@@ -20,7 +20,7 @@
     >
       CAT MASH
     </h1>
-    
+
     <router-link
       :to="{ name: 'ranking' }"
       class="title bm-6"
@@ -35,7 +35,7 @@
     >
       Classement
     </router-link>
-    <router-view/>
+    <router-view />
     <div class="columns m-0 is-flex columns center" style="min-width: 100%">
       <div class="column center is-flex" style="background-color: #ecb8a5">
         <figure class="is-flex image center">
@@ -43,19 +43,19 @@
             v-on:click="selected(0)"
             class="image is-rounded"
             style="width: auto"
-            v-bind:src="'/static/' + cats[0].id"
+            v-bind:src="'/static/' + cat1.id"
           />
         </figure>
       </div>
 
       <div class="column center is-flex" style="background-color: #e49ab0">
         <figure class="is-flex image center">
-            <img
-              v-on:click="selected(1)"
-              class="image is-rounded"
-              style="width: auto"
-              v-bind:src="'/static/' + cats[1].id"
-            />
+          <img
+            v-on:click="selected(1)"
+            class="image is-rounded"
+            style="width: auto"
+            v-bind:src="'/static/' + cat2.id"
+          />
         </figure>
       </div>
     </div>
@@ -72,6 +72,8 @@ import messageService from "../services/messageService";
 export default {
   data() {
     return {
+      cat1: null,
+      cat2: null,
       cats: [],
     };
   },
@@ -80,28 +82,53 @@ export default {
     selected: function (winner) {
       console.log(winner);
       var msg = new Object();
-      msg.catsIds = [this.cats[0].id, this.cats[1].id];
-      msg.winnerId = this.cats[winner].id;
+      msg.catsIds = [this.cat1.id, this.cat2.id];
+      if (winner == 0) {
+        msg.winnerId = this.cat1.id;
+      } else if (winner == 1) {
+        msg.winnerId = this.cat2.id;
+      }
       console.log(msg);
       messageService.postCutest(msg);
-      this.cats = [];
-      messageService.getCats().then((res) => {
-        this.cats.push(res[0]);
-        this.cats.push(res[1]);
-      });
+      var twoRandomDifferentCat = this.getTwoRandomDifferentCats();
+      this.cat1 = twoRandomDifferentCat[0];
+      this.cat2 = twoRandomDifferentCat[1];
+    },
+    getTwoRandomDifferentCats: function () {
+      function getRandomDifferent(arr, last = undefined) {
+        if (arr.length === 0) {
+          return;
+        } else if (arr.length === 1) {
+          return arr[0];
+        } else {
+          let num = 0;
+          do {
+            num = Math.floor(Math.random() * arr.length);
+          } while (arr[num] === last);
+          return arr[num];
+        }
+      }
+
+      var cat1 = getRandomDifferent(this.cats);
+      var cat2 = getRandomDifferent(this.cats, cat1);
+      console.log(cat1);
+      return [cat1, cat2];
     },
   },
 
   created() {
-    messageService.getCats().then((res) => {
+    messageService.getAllCats().then((res) => {
       // cats = res.map(cat => Cat.deserialize(cat));
       console.log("test");
+      this.cats = res;
       console.log(this.cats);
-
-      this.cats.push(res[0]);
-      this.cats.push(res[1]);
-      console.log(this.cats[0].id);
+      var twoRandomDifferentCat = [];
+    twoRandomDifferentCat = this.getTwoRandomDifferentCats();
+    console.log(twoRandomDifferentCat);
+    this.cat1 = twoRandomDifferentCat[0];
+    this.cat2 = twoRandomDifferentCat[1];
     });
+    
   },
 };
 </script>

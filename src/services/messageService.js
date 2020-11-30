@@ -1,14 +1,9 @@
 import api from '@/services/api'
 
 export default {
-  getCats() {
-    //TODO : /tworandomcats
-    return api.get(`cat/1`)
-              .then(response => response.data)
-  },
   postCutest(payload) {
     //TODO : /cutestcat
-    return api.post(`cat/`, payload)
+    return api.post(`cutest/`, payload)
               .then(response => response.data)
   },
   getAllCats(){

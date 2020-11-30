@@ -4,12 +4,13 @@
 ## TODO
 
 - enlever DEBUG = True in prod
-- modifier front et back pour respecter le shcéma d'une API REST
 - Tests
 
 
 
 ## DONE
+
+- modifier front et back pour respecter le shcéma d'une API REST
 
 # Django Vue Template ✌️ 🐍
 
